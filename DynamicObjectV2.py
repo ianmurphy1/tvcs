@@ -88,6 +88,16 @@ class Class(dict):
         result += "}"
         return str(result)
 
+    def __to_json__(self):
+        result = "{"
+        for item in self.__data__.items():
+            item = item[0]
+            result += "\"" + str(item) + "\": " + str(self.__data__[item]) + ", "
+
+        if (len(self.__data__.items()) > 0): result = result[:-2]
+        result += "}"
+        return str(result)
+
     def __reduce_ex__ (self, x):
         return self.__data__.__reduce_ex__(x)
 

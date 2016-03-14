@@ -1,8 +1,6 @@
 
 fromSource = [
-    "OpenCV",
-    "Servo",
-    "Sound"
+    "Server"
 ]
 
 fromClass = [
