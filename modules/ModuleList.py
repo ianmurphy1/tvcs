@@ -1,6 +1,6 @@
 
 fromSource = [
-    "Server"
+    "Client"
 ]
 
 fromClass = [

@@ -12,9 +12,6 @@ Obj = DynamicObjectV2.Class
 
 # put your imports here
 import socket
-import cPickle as pickle
-import json
-import jsonpickle
 
 def init(self):
     # put your self.registerOutput here
@@ -37,15 +34,9 @@ def run (self):
         yPos += 1
         for tag in to_get:
             obj = checkMemory(self, tag)
-            print 'obj'
-            print str(obj)
             if obj is not None:
-                print obj.__data__
-                owner = obj.__data__['owner']
-                del obj.__data__['owner']
-                sending = jsonpickle.encode(obj.__data__)
-                obj.__data__['owner'] = owner
-                print 'sending: ' + sending
+                sending = obj.__to_json__()
+                self.message('sending {}'.format(sending))
                 s.sendall(sending)
 
 
