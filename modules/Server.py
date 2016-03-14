@@ -33,10 +33,13 @@ def run (self):
         # put your logic here
         # you can use: output, getInputs, message
         c, addr = s.accept()
-        print 'Got connection from', addr
+        self.message('Got connection from {}'.format(addr))
 
         while 1:
             data, _ = c.recvfrom(4096)
+            if not data:
+                self.message('connection broke')
+                break
             r_obj = jsonpickle.decode(data)
             print r_obj
             addToMemory(self, "facePos", r_obj)
