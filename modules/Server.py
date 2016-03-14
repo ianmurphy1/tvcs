@@ -38,7 +38,6 @@ def run (self):
         while 1:
             data, _ = c.recvfrom(4096)
             r_obj = jsonpickle.decode(data)
-            print 'received from client'
             print r_obj
             addToMemory(self, "facePos", r_obj)
 

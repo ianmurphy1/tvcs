@@ -24,7 +24,6 @@ def init(self):
 def run (self):
     # put your init and global variables here
     to_get = ["facePos"]
-
     s = socket.socket()
     host = '192.168.0.136'
     port = 12345
@@ -36,7 +35,6 @@ def run (self):
         addToMemory(self, "facePos", Obj("x", xPos, "y", yPos))
         xPos += 1
         yPos += 1
-
         for tag in to_get:
             obj = checkMemory(self, tag)
             print 'obj'
