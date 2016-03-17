@@ -40,6 +40,7 @@ def run (self):
             if not data:
                 self.message('connection broke')
                 break
+            print 'size of receiving: {}'.format(len(data))
             r_obj = jsonpickle.decode(data)
             print r_obj
             addToMemory(self, "facePos", r_obj)
