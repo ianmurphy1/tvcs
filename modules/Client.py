@@ -12,7 +12,7 @@ Obj = DynamicObjectV2.Class
 
 # put your imports here
 import socket
-
+import jsonpickle
 def init(self):
     # put your self.registerOutput here
     self.registerOutput("facePos1", Obj("x", 0, "y", 0))
@@ -41,10 +41,11 @@ def run (self):
                 sending = {}
                 sending['tag'] = tag
                 sending['data'] = obj.__to_json__()
-                self.message('sending {}'.format(sending))
+                send_string = jsonpickle.encode(sending)
+                self.message('sending {}'.format(send_string))
                 print 'size of sending: {}'.format(len(sending))
                 self.message('sending {}'.format(sending))
-                s.sendall(sending)
+                s.sendall(send_string)
 
 
 def addToMemory(self, key, obj):
