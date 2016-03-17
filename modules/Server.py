@@ -16,7 +16,8 @@ import jsonpickle
 
 def init(self):
     # put your self.registerOutput here
-    self.registerOutput("facePos", Obj("x", 0, "y", 0))
+    self.registerOutput("facePos1", Obj("x", 0, "y", 0))
+    self.registerOutput("facePos2", Obj("x", 0, "y", 0))
 
 
 def run (self):
@@ -43,7 +44,7 @@ def run (self):
             print 'size of receiving: {}'.format(len(data))
             r_obj = jsonpickle.decode(data)
             print r_obj
-            addToMemory(self, "facePos", r_obj)
+            addToMemory(self, "facePos1", r_obj)
 
         c.close()
 

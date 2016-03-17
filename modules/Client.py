@@ -38,7 +38,10 @@ def run (self):
         for tag in to_get:
             obj = checkMemory(self, tag)
             if obj is not None:
-                sending = obj.__to_json__()
+                sending = {}
+                sending['tag'] = tag
+                sending['data'] = obj.__to_json__()
+                self.message('sending {}'.format(sending))
                 print 'size of sending: {}'.format(len(sending))
                 self.message('sending {}'.format(sending))
                 s.sendall(sending)
