@@ -32,7 +32,7 @@ def run (self):
     while 1:
         addToMemory(self, "facePos1", Obj("x", xPos, "y", yPos))
         addToMemory(self, "facePos2", Obj("x", xPos, "y", yPos))
-        time.sleep(5)
+        time.sleep(2)
         xPos += 1
         yPos += 1
         for tag in to_get:
@@ -40,12 +40,12 @@ def run (self):
             if obj is not None:
                 sending = {}
                 sending['tag'] = tag
-                sending['data'] = obj.__to_json__()
+                sending['data'] = obj.__data__
                 send_string = jsonpickle.encode(sending)
+                print 'size of sending: {}'.format(len(send_string))
                 self.message('sending {}'.format(send_string))
-                print 'size of sending: {}'.format(len(sending))
-                self.message('sending {}'.format(sending))
                 s.sendall(send_string)
+                time.sleep(2)
 
 
 def addToMemory(self, key, obj):
