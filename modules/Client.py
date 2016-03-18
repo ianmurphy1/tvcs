@@ -13,6 +13,7 @@ Obj = DynamicObjectV2.Class
 # put your imports here
 import socket
 import jsonpickle
+import struct
 def init(self):
     # put your self.registerOutput here
     self.registerOutput("facePos1", Obj("x", 0, "y", 0))
@@ -23,7 +24,8 @@ def run (self):
     # put your init and global variables here
     to_get = ["facePos1", "facePos2"]
     s = socket.socket()
-    host = '192.168.0.136'
+    s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+    host = 'localhost'
     port = 12345
     s.connect((host, port))
     xPos = 8000
@@ -32,20 +34,18 @@ def run (self):
     while 1:
         addToMemory(self, "facePos1", Obj("x", xPos, "y", yPos))
         addToMemory(self, "facePos2", Obj("x", xPos, "y", yPos))
-        time.sleep(2)
+        time.sleep(5)
         xPos += 1
         yPos += 1
         for tag in to_get:
             obj = checkMemory(self, tag)
             if obj is not None:
-                sending = {}
-                sending['tag'] = tag
-                sending['data'] = obj.__data__
+                sending = {
+                    'tag': tag,
+                    'data': obj.__data__
+                }
                 send_string = jsonpickle.encode(sending)
-                print 'size of sending: {}'.format(len(send_string))
-                self.message('sending {}'.format(send_string))
-                s.sendall(send_string)
-                time.sleep(2)
+                send_one_message(s, send_string)
 
 
 def addToMemory(self, key, obj):
@@ -55,3 +55,22 @@ def addToMemory(self, key, obj):
 def checkMemory(self, key):
     print 'getting ' + key
     return self.getInputs()[key]
+
+def send_one_message(sock, data):
+    length = len(data)
+    sock.sendall(struct.pack('!I', length))
+    sock.sendall(data)
+
+def recv_one_message(sock):
+    lengthbuf = recvall(sock, 4)
+    length, = struct.unpack('!I', lengthbuf)
+    return recvall(sock, length)
+
+def recvall(sock, count):
+    buf = b''
+    while count:
+        newbuf = sock.recv(count)
+        if not newbuf: return None
+        buf += newbuf
+        count -= len(newbuf)
+    return buf
