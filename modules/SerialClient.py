@@ -26,7 +26,7 @@ def run(self):
     to_get = ["facePos1", "facePos2"]
     ser = serial.Serial(
                port='/dev/ttyAMA0',
-               baudrate = 9600,
+               baudrate=115200,
                parity=serial.PARITY_NONE,
                stopbits=serial.STOPBITS_ONE,
                bytesize=serial.EIGHTBITS,
