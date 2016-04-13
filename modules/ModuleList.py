@@ -1,6 +1,7 @@
 
 fromSource = [
-    "Server"
+    "SerialServer",
+    "SerialClient"
 ]
 
 fromClass = [
