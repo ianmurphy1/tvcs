@@ -38,7 +38,7 @@ def run (self):
     while 1:
         # put your logic here
         # you can use: output, getInputs, message
-        x=ser.readline()
+        x = ser.readline()
         if x:
             r_obj = jsonpickle.decode(x)
             addToMemory(self, r_obj['tag'], r_obj['data'])
@@ -52,22 +52,3 @@ def addToMemory(self, key, obj):
 def checkMemory(self, key):
     print 'getting ' + key
     return self.getInputs()[key]
-
-def send_one_message(ser, data):
-    length = len(data)
-    ser.write(struct.pack('!I', length))
-    ser.write(data)
-
-def recv_one_message(ser):
-    lengthbuf = recvall(ser, 4)
-    length, = struct.unpack('!I', lengthbuf)
-    return recvall(ser, length)
-
-def recvall(ser, count):
-    buf = b''
-    while count:
-        newbuf = ser.read(count)
-        if not newbuf: return None
-        buf += newbuf
-        count -= len(newbuf)
-    return buf

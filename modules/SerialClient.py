@@ -25,7 +25,6 @@ def run(self):
     # put your init and global variables here
     to_get = ["facePos1", "facePos2"]
     ser = serial.Serial(
-
                port='/dev/ttyAMA0',
                baudrate = 9600,
                parity=serial.PARITY_NONE,
@@ -65,22 +64,3 @@ def addToMemory(self, key, obj):
 def checkMemory(self, key):
     print 'getting ' + key
     return self.getInputs()[key]
-
-def send_one_message(ser, data):
-    length = len(data)
-    ser.write(struct.pack('!I', length))
-    ser.write(data)
-
-def recv_one_message(ser):
-    lengthbuf = recvall(ser, 4)
-    length, = struct.unpack('!I', lengthbuf)
-    return recvall(ser, length)
-
-def recvall(ser, count):
-    buf = b''
-    while count:
-        newbuf = ser.read(count)
-        if not newbuf: return None
-        buf += newbuf
-        count -= len(newbuf)
-    return buf
