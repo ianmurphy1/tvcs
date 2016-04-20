@@ -33,14 +33,10 @@ def run(self):
     )
     ser.flushInput()
     ser.flushOutput()
-    xPos = 8000
-    yPos = 8000
     # main loop
     while 1:
         # put your logic here
         # you can use: output, getInputs, message
-        xPos += 1
-        yPos += 1
         for tag in to_get:
             obj = checkMemory(self, tag)
             if obj is not None:
