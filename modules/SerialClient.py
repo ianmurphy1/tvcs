@@ -33,19 +33,23 @@ def run(self):
     )
     ser.flushInput()
     ser.flushOutput()
+    z = y = x = 0
     # main loop
     while 1:
         # put your logic here
+
         # you can use: output, getInputs, message
         for tag in to_get:
             obj = checkMemory(self, tag)
             if obj is not None:
+                ser.flushOutput()
                 sending = {
                     'tag': tag,
                     'data': obj.__data__
                 }
                 send_string = jsonpickle.encode(sending)
                 ser.write(send_string + '\n')
+                time.sleep(0.1)
 
 
 def addToMemory(self, key, obj):
