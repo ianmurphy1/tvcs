@@ -22,6 +22,7 @@ def init(self):
 
 def run(self):
     # put your init and global variables here
+    # array of the tags that are to be sent 
     to_get = ["headPosition", "lampPosition"]
     ser = serial.Serial(
                port='/dev/ttyAMA0',

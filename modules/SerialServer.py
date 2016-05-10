@@ -17,6 +17,8 @@ import jsonpickle
 
 def init(self):
     # put your self.registerOutput here
+    # registering objects is necessary here as module not present on
+    # pi that is receiving objects
     self.registerOutput("headPosition", Obj("x", 0, "y", 0))
     self.registerOutput("lampPosition", Obj("z", 0))
 
