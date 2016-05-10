@@ -13,12 +13,12 @@ Obj = DynamicObjectV2.Class
 # put your imports here
 import serial
 import jsonpickle
-import struct
+
 
 def init(self):
     # put your self.registerOutput here
-    self.registerOutput("facePos1", Obj("x", 0, "y", 0))
-    self.registerOutput("facePos2", Obj("x", 0, "y", 0))
+    self.registerOutput("headPosition", Obj("x", 0, "y", 0))
+    self.registerOutput("lampPosition", Obj("z", 0))
 
 def run (self):
     # put your init and global variables here
@@ -30,7 +30,6 @@ def run (self):
         bytesize=serial.EIGHTBITS,
         timeout=1
     )
-    counter = 0
     ser.flushInput()
     ser.flushOutput()
   
@@ -40,8 +39,12 @@ def run (self):
         # you can use: output, getInputs, message
         x = ser.readline()
         if x:
-            r_obj = jsonpickle.decode(x)
-            addToMemory(self, r_obj['tag'], r_obj['data'])
+            try:
+                r_obj = jsonpickle.decode(x)
+                addToMemory(self, r_obj['tag'], r_obj['data'])
+                ser.flushInput()
+            except:
+                pass
 
 
 
@@ -50,5 +53,5 @@ def addToMemory(self, key, obj):
 
 
 def checkMemory(self, key):
-    print 'getting ' + key
+    # print 'getting ' + key
     return self.getInputs()[key]

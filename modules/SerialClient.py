@@ -15,15 +15,14 @@ import serial
 import struct
 import jsonpickle
 
+
 def init(self):
-    # put your self.registerOutput here
-    self.registerOutput("facePos1", Obj("x", 0, "y", 0))
-    self.registerOutput("facePos2", Obj("x", 0, "y", 0))
+    pass
 
 
 def run(self):
     # put your init and global variables here
-    to_get = ["facePos1", "facePos2"]
+    to_get = ["headPosition", "lampPosition"]
     ser = serial.Serial(
                port='/dev/ttyAMA0',
                baudrate=115200,
@@ -34,27 +33,23 @@ def run(self):
     )
     ser.flushInput()
     ser.flushOutput()
-    counter=0
-    xPos = 8000
-    yPos = 8000
+    z = y = x = 0
     # main loop
     while 1:
         # put your logic here
-        # you can use: output, getInputs, message 
-        addToMemory(self, "facePos1", Obj("x", xPos, "y", yPos))
-        addToMemory(self, "facePos2", Obj("x", xPos, "y", yPos))
-        xPos += 1
-        yPos += 1
+
+        # you can use: output, getInputs, message
         for tag in to_get:
             obj = checkMemory(self, tag)
             if obj is not None:
+                ser.flushOutput()
                 sending = {
                     'tag': tag,
                     'data': obj.__data__
                 }
                 send_string = jsonpickle.encode(sending)
                 ser.write(send_string + '\n')
-
+                time.sleep(0.1)
 
 
 def addToMemory(self, key, obj):
