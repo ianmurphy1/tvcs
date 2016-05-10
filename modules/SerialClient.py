@@ -17,12 +17,16 @@ import jsonpickle
 
 
 def init(self):
+    # if testing register outputs here
+    # no need to register on operational system as
+    # modules will already have
+    # registered their objects
     pass
 
 
 def run(self):
     # put your init and global variables here
-    # array of the tags that are to be sent 
+    # array of the tags that are to be sent
     to_get = ["headPosition", "lampPosition"]
     ser = serial.Serial(
                port='/dev/ttyAMA0',
